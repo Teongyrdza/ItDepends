@@ -5,12 +5,6 @@ import PackageDescription
 
 let package = Package(
     name: "ItDepends",
-    platforms: [
-        .iOS(.v13),
-        .macOS(.v10_15),
-        .watchOS(.v6),
-        .tvOS(.v13)
-    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
