@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Combine
 
-public final class ModelStore: Model {
+public final class ModelStore: Model, ObservableObject {
     private var models = [ObjectIdentifier : Model]()
     
     func model(ofType type: Model.Type) -> Model? {
