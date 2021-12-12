@@ -29,6 +29,7 @@ public final class ModelStore: Model, ObservableObject {
         for type in types {
             if let storedModelType = type as? AnyStoredModel.Type, let model = try? storedModelType.load() {
                 models[ObjectIdentifier(type)] = model
+                continue
             }
             
             models[ObjectIdentifier(type)] = type.init()
