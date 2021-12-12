@@ -23,6 +23,14 @@ public final class ModelStore: Model, ObservableObject {
         model(ofType: T.self) as? T
     }
     
+    public func save() {
+        for model in models.values {
+            if let storedModel = model as? AnyStoredModel {
+                try? storedModel.save()
+            }
+        }
+    }
+    
     public init() {}
     
     public init(_ types: Model.Type...) {
