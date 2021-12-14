@@ -33,20 +33,36 @@ public struct Dependency<Value: Model>: AnyDependency {
 
 @propertyWrapper
 public struct ObservedDependency<Value: Model & ObservableObject>: AnyDependency, DynamicProperty {
-    private var observedObject: ObservedObject<Value>?
+    @ObservedObject private var wrapper = Wrapper()
     
-    public var wrappedValue: Value {
-        get { observedObject!.wrappedValue }
+    class Wrapper: ObservableObject {
+        private var cancellables = Set<AnyCancellable>()
+        
+        var value: Value? {
+            didSet {
+                if let value = value {
+                    value.objectWillChange
+                        .sink { _ in
+                            self.objectWillChange.send()
+                        }
+                        .store(in: &cancellables)
+                }
+            }
+        }
     }
     
-    public var projectedValue: ObservedObject<Value>.Wrapper {
-        get { observedObject!.projectedValue }
+    public var wrappedValue: Value {
+        wrapper.value!
+    }
+    
+    public var projectedValue: Binding<Value> {
+        Binding(get: { wrapper.value! }, set: { _ in })
     }
     
     var type: Model.Type { Value.self }
     
     mutating func resolve(with model: Model) {
-        observedObject = .init(wrappedValue: model as! Value)
+        wrapper.value = (model as! Value)
     }
     
     public init() {}
