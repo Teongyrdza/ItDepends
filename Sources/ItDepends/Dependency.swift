@@ -39,6 +39,10 @@ public struct ObservedDependency<Value: Model & ObservableObject>: AnyDependency
         get { observedObject!.wrappedValue }
     }
     
+    public var projectedValue: ObservedObject<Value>.Wrapper {
+        get { observedObject!.projectedValue }
+    }
+    
     var type: Model.Type { Value.self }
     
     mutating func resolve(with model: Model) {
