@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 protocol AnyDependency {
-    mutating func resolve(with container: ModelStore)
+    mutating func resolve(with container: AnyDependencyContainer)
 }
 
 @propertyWrapper
@@ -25,7 +25,7 @@ public struct Dependency<Value: Model>: AnyDependency {
         self.value = value
     }
     
-    mutating func resolve(with container: ModelStore) {
+    mutating func resolve(with container: AnyDependencyContainer) {
         value = container.model(ofType: Value.self)
     }
     
@@ -60,7 +60,7 @@ public struct ObservedDependency<Value: Model & ObservableObject>: AnyDependency
         Binding(get: { wrapper.value! }, set: { _ in })
     }
     
-    mutating func resolve(with container: ModelStore) {
+    mutating func resolve(with container: AnyDependencyContainer) {
         wrapper.value = container.model(ofType: Value.self)
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-public final class ModelStore: Model, ObservableObject {
+public final class ModelStore: AnyDependencyContainer, ObservableObject {
     private var models = [ObjectIdentifier : Model]()
     
     public func model<T: Model>(ofType type: T.Type) -> T? {
