@@ -18,10 +18,8 @@ public extension Depender {
         
         for property in info.properties {
             if var dependency = try! property.get(from: self) as? AnyDependency {
-                if let model = container.model(ofType: dependency.type) {
-                    dependency.resolve(with: model)
-                    try! property.set(value: dependency, on: &self)
-                }
+                dependency.resolve(with: container)
+                try! property.set(value: dependency, on: &self)
             }
         }
     }

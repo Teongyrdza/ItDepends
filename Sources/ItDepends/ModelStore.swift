@@ -11,16 +11,12 @@ import Combine
 public final class ModelStore: Model, ObservableObject {
     private var models = [ObjectIdentifier : Model]()
     
-    func model(ofType type: Model.Type) -> Model? {
+    public func model<T: Model>(ofType type: T.Type) -> T? {
         if type == Self.self {
-            return self
+            return self as? T
         }
         
-        return models[ObjectIdentifier(type)]
-    }
-    
-    public func model<T: Model>(ofType type: T.Type) -> T? {
-        model(ofType: T.self) as? T
+        return models[ObjectIdentifier(type)] as? T
     }
     
     public func save() {
