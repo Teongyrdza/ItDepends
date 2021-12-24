@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DependencyContainer.swift
 //  
 //
 //  Created by Ostap on 18.12.2021.
@@ -11,7 +11,7 @@ public protocol AnyDependencyContainer: Model {
     func model<T: Model>(ofType type: T.Type) -> T?
 }
 
-public final class DependencyContainer: AnyDependencyContainer {
+public final class DependencyContainer: AnyDependencyContainer, ObservableObject {
     private var models = [ObjectIdentifier : Model]()
     
     public func model<T: Model>(ofType type: T.Type) -> T? {
